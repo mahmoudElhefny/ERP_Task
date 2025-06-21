@@ -14,7 +14,7 @@ namespace ERP_Task.Persistence
     {
         public static void ConfigurePersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("Sqlite");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
 
            // services.AddScoped<IUnitOfWork, UnitOfWork>();

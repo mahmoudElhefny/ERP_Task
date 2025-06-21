@@ -12,7 +12,7 @@ namespace ERP_Task.Domain.Entities
         public string Action { get; set; } = default!;
         public string EntityName { get; set; } = default!;
         public Guid EntityId { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
         public string Description { get; set; } = default!;
     }
 
