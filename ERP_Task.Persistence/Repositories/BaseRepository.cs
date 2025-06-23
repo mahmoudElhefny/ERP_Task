@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using ERP_Task.Application.Repositories;
+using ERP_Task.Application.Responses.Pagination;
 using ERP_Task.Domain.Common;
 using ERP_Task.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -49,12 +50,10 @@ namespace ERP_Task.Persistence.Repositories
             return Task.CompletedTask;
         }
 
-
         public async Task<T> Get(Guid id, CancellationToken cancellationToken)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
-
         public Task<List<T>> GetAll(CancellationToken cancellationToken)
         {
             return _context.Set<T>().ToListAsync(cancellationToken);
@@ -84,27 +83,6 @@ namespace ERP_Task.Persistence.Repositories
                 .Where(predicate)
                 .Select(selector)
                 .FirstOrDefaultAsync(cancellationToken);
-        }
-        public virtual async Task<List<T>> GetPagedAsync(
-               int pageNumber,
-               int pageSize,
-               Expression<Func<T, bool>>? predicate = null,
-               Expression<Func<T, object>>? orderBy = null,
-               bool ascending = true,
-               CancellationToken cancellationToken = default)
-        {
-            var query = _context.Set<T>().AsQueryable();
-
-            if (predicate != null)
-                query = query.Where(predicate);
-
-            if (orderBy != null)
-                query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
-
-            return await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync(cancellationToken);
-        }
+        }      
     }
 }

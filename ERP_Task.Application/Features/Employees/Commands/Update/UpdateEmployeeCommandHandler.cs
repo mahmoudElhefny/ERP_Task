@@ -28,10 +28,9 @@ namespace ERP_Task.Application.Features.Employees.Commands.Update
         public async Task<OutputResponse<bool>> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
             var employee =await _employeeRepository.Get(request.Id,cancellationToken);
-             employee = _mapper.Map<ERP_Task.Domain.Entities.Employee>(request);
+            _mapper.Map(request, employee);
             _employeeRepository.Update(employee);
             await _unitOfWork.SaveChangesAsync();
-
             return new OutputResponse<bool>
             {
                 Success = true,

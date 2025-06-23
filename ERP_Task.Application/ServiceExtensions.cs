@@ -20,8 +20,10 @@ namespace ERP_Task.Application
 
             // Add validation behavior
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LogHistoryBehavior<,>));
             services.AddAutoMapper(assembly);
             services.AddMediatR(Assembly.GetExecutingAssembly());
+           
             return services;
         }
     }

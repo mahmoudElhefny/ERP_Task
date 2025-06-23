@@ -20,8 +20,10 @@ namespace ERP_Task.Application.Common.Behaviours
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var context = new ValidationContext<TRequest>(request);
-            var failures = _validators
-            .Select(d => d.Validate(context))
+            var validationResults = await Task.WhenAll(
+            _validators.Select(v => v.ValidateAsync(context, cancellationToken))
+            );
+            var failures = validationResults
             .SelectMany(d => d.Errors)
             .Where(d => d != null)
             .ToList();

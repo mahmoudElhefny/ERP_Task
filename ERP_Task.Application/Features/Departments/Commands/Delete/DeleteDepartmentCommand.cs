@@ -7,9 +7,9 @@ using ERP_Task.Application.Mappings;
 using ERP_Task.Application.Responses;
 using MediatR;
 
-namespace ERP_Task.Application.Features.Employees.Commands.Delete
+namespace ERP_Task.Application.Features.Departments.Commands.Delete
 {
-    public class DeleteEmployeeCommand : IRequest<OutputResponse<bool>>
+    public class DeleteDepartmentCommand : IRequest<OutputResponse<bool>>
     {
         public Guid Id { get; set; }
     }

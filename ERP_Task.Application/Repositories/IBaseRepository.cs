@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ERP_Task.Application.Responses.Pagination;
 using ERP_Task.Domain.Common;
 
 namespace ERP_Task.Application.Repositories
@@ -20,6 +21,5 @@ namespace ERP_Task.Application.Repositories
         Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default);
         Task<List<T>> FindAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
         Task<TResult?> FindOneAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, CancellationToken cancellationToken);
-        Task<List<T>> GetPagedAsync(int pageNumber,int pageSize,Expression<Func<T, bool>>? predicate = null,Expression<Func<T, object>>? orderBy = null,bool ascending = true,CancellationToken cancellationToken = default);
     }
 }

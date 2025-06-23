@@ -1,7 +1,12 @@
 ﻿using System.Net;
 using ERP_Task.API.Setups.Bases;
 using ERP_Task.Application.Features.Employees.Commands.CreateEmployee;
+using ERP_Task.Application.Features.Employees.Commands.Delete;
+using ERP_Task.Application.Features.Employees.Commands.Update;
+using ERP_Task.Application.Features.Employees.Dtos;
+using ERP_Task.Application.Features.Employees.Queries.Pagination;
 using ERP_Task.Application.Responses;
+using ERP_Task.Application.Responses.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +22,7 @@ namespace ERP_Task.API.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPost("add-new-employee")]
+        [HttpPost("add-employee")]
         [ProducesResponseType(typeof(OutputResponse<bool>),(int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(OutputResponse<object>),(int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult>Create(CreateEmployeeCommand command)
@@ -25,6 +30,31 @@ namespace ERP_Task.API.Controllers
             var result=await _mediator.Send(command);
             return ReturnResult(result);
         }
+        [HttpPost("update-employe")]
+        [ProducesResponseType(typeof(OutputResponse<bool>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(OutputResponse<object>), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Update(UpdateEmployeeCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return ReturnResult(result);
+        }
+        [HttpDelete("employee-soft-delete")]
+        [ProducesResponseType(typeof(OutputResponse<bool>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(OutputResponse<object>), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Delete(DeleteEmployeeCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return ReturnResult(result);
+        }
+        [ProducesResponseType(typeof(OutputResponse<bool>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(OutputResponse<object>), (int)HttpStatusCode.BadRequest)]
+        [HttpGet("filter")]
+        public async Task<ActionResult<PagedResult<EmployeeDto>>> GetFilteredEmployees([FromQuery] GetFilteredEmployeesQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
         /// <summary>
         /// Handler that processes the command when student enroll for a course
         /// </summary>

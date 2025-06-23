@@ -5,6 +5,7 @@ using ERP_Task.API.Setups.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigurePersistence(builder.Configuration);
 
 builder.Services.ConfigureApplication();

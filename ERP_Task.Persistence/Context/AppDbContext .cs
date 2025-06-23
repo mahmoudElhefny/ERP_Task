@@ -13,13 +13,15 @@ namespace ERP_Task.Persistence.Context
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Department> Departments {  get; set; }
+        public DbSet<LogHistory> Historys { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Employee>().HasQueryFilter(e => !e.IsDeleted);
-
+            modelBuilder.Entity<Department>().HasQueryFilter(e => !e.IsDeleted);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }

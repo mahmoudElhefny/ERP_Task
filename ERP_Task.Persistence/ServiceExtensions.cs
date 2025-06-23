@@ -21,6 +21,9 @@ namespace ERP_Task.Persistence
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<ILogHistoryRepository, LogHistoryRepository>();
+            
         }
     }
 }
