@@ -17,7 +17,7 @@ namespace ERP_Task.Application.Features.Employees.Dtos
         public void Mapping(Profile profile)
         {
             profile.CreateMap<ERP_Task.Domain.Entities.Employee, EmployeeDto>()
-                .ForMember(dest=>dest.DepartmentName,opt => opt.MapFrom(src => src.Department.Name));
+                .ForMember(dest=>dest.DepartmentName,opt => opt.MapFrom(src => src.Department.Name)).ReverseMap();
         }
     }
 

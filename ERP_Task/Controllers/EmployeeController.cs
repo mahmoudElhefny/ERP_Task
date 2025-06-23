@@ -4,6 +4,7 @@ using ERP_Task.Application.Features.Employees.Commands.CreateEmployee;
 using ERP_Task.Application.Features.Employees.Commands.Delete;
 using ERP_Task.Application.Features.Employees.Commands.Update;
 using ERP_Task.Application.Features.Employees.Dtos;
+using ERP_Task.Application.Features.Employees.Queries.Get;
 using ERP_Task.Application.Features.Employees.Queries.Pagination;
 using ERP_Task.Application.Responses;
 using ERP_Task.Application.Responses.Pagination;
@@ -22,6 +23,12 @@ namespace ERP_Task.API.Controllers
         {
             _mediator = mediator;
         }
+        /// <summary>
+        /// Handler that processes the command when add employee 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("add-employee")]
         [ProducesResponseType(typeof(OutputResponse<bool>),(int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(OutputResponse<object>),(int)HttpStatusCode.BadRequest)]
@@ -46,20 +53,24 @@ namespace ERP_Task.API.Controllers
             var result = await _mediator.Send(command);
             return ReturnResult(result);
         }
-        [ProducesResponseType(typeof(OutputResponse<bool>), (int)HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(OutputResponse<object>), (int)HttpStatusCode.BadRequest)]
-        [HttpGet("filter")]
-        public async Task<ActionResult<PagedResult<EmployeeDto>>> GetFilteredEmployees([FromQuery] GetFilteredEmployeesQuery query)
+        [ProducesResponseType(typeof(OutputResponse<PagedResult<EmployeeDto>>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(OutputResponse<PagedResult<EmployeeDto>>), (int)HttpStatusCode.BadRequest)]
+        [HttpPost("filter")]
+        public async Task<ActionResult<PagedResult<EmployeeDto>>> GetFilteredEmployees([FromBody] GetFilteredEmployeesQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
         }
 
-        /// <summary>
-        /// Handler that processes the command when student enroll for a course
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        [ProducesResponseType(typeof(OutputResponse<EmployeeDto>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(OutputResponse<EmployeeDto>), (int)HttpStatusCode.BadRequest)]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PagedResult<EmployeeDto>>> GetFilteredEmployees(Guid id)
+        {
+            var result = await _mediator.Send(new GetEmployeeQuery { Id = id });
+            return Ok(result);
+        }
+
+       
     }
 }

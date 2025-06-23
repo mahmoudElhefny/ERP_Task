@@ -1,15 +1,14 @@
-﻿using ERP_Task.Application.Features.Employees.Commands.CreateEmployee;
-using ERP_Task.Application.Features.Employees.Commands.Delete;
-using ERP_Task.Application.Features.Employees.Commands.Update;
-using ERP_Task.Application.Responses;
+﻿using ERP_Task.Application.Responses;
 using MediatR;
 using System.Net;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ERP_Task.API.Setups.Bases;
 using ERP_Task.Application.Features.Departments.Commands.CreateDepartment;
 using ERP_Task.Application.Features.Departments.Commands.Update;
 using ERP_Task.Application.Features.Departments.Commands.Delete;
+using ERP_Task.Application.Responses.Pagination;
+using ERP_Task.Application.Features.Departments.Dtos;
+using ERP_Task.Application.Features.Departments.Queries.Pagination;
 
 namespace ERP_Task.API.Controllers
 {
@@ -45,6 +44,14 @@ namespace ERP_Task.API.Controllers
         {
             var result = await _mediator.Send(command);
             return ReturnResult(result);
+        }
+        [ProducesResponseType(typeof(OutputResponse<PagedResult<DepartmentDto>>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(OutputResponse<PagedResult<DepartmentDto>>), (int)HttpStatusCode.BadRequest)]
+        [HttpPost("filter")]
+        public async Task<ActionResult<PagedResult<DepartmentDto>>> GetFilteredEmployees([FromBody] GetFilteredDepartementsQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
     }
 }

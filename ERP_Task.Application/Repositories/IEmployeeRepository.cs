@@ -11,6 +11,7 @@ namespace ERP_Task.Application.Repositories
 {
     public interface IEmployeeRepository : IBaseRepository<Employee>
     {
+        Task<Employee?> GetEmployeeWithDepartmentNameAsync(Guid id);
         Task<PagedResult<Employee>> GetPagedWithDepartmentAsync(
         int pageNumber,
         int pageSize,

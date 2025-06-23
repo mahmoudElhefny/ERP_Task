@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using ERP_Task.Application.Enums;
 using ERP_Task.Application.Features.Employees.Dtos;
+using ERP_Task.Application.Responses;
 using ERP_Task.Application.Responses.Pagination;
 using MediatR;
 
 namespace ERP_Task.Application.Features.Employees.Queries.Pagination
 {
-    public class GetFilteredEmployeesQuery : IRequest<PagedResult<EmployeeDto>>
+    public class GetFilteredEmployeesQuery : IRequest<OutputResponse<PagedResult<EmployeeDto>>>
     {
         public string? Name { get; set; }
         public Guid? DepartmentId { get; set; }

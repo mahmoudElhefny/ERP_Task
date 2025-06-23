@@ -12,6 +12,10 @@ namespace ERP_Task.Persistence.Repositories
         public EmployeeRepository(AppDbContext context) : base(context)
         {
         }
+        public async Task<Employee?> GetEmployeeWithDepartmentNameAsync(Guid id)
+        {
+            return await _context.Employees.Include(e=>e.Department).FirstOrDefaultAsync(e=>e.Id==id);
+        }
         public async Task<PagedResult<Employee>> GetPagedWithDepartmentAsync(
                         int pageNumber,
                         int pageSize,
